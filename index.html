@@ -1,211 +1,82 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
-   <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>工作進度匯報</title>
-    
-    <meta name="description" content="系統自動生成的年度數據報告，請點擊確認細節。">
-    
-    <meta property="og:title" content="工作進度匯報">
-    <meta property="og:description" content="系統自動生成的年度數據報告，請點擊確認細節。">
-    <meta property="og:image" content=""> <style>
-        /* 原有的 CSS 代碼保持不變... */
+    <title>年度專案進度匯報</title>
+    <meta name="description" content="系統自動生成的年度分析報告，請點擊確認細節。">
+    <meta property="og:title" content="年度專案進度匯報">
+    <meta property="og:description" content="系統自動生成的年度分析報告，請點擊確認細節。">
+    <meta name="theme-color" content="#090A0F">
+
     <style>
-        /* --- 基礎設定 --- */
+        /* 強制背景黑色，防止閃爍 */
+        html, body {
+            background-color: #090A0F !important;
+            margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden;
+        }
         body {
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            /* 深邃夜空背景 */
-            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%);
-            font-family: "Microsoft JhengHei", "Heiti TC", sans-serif;
-            overflow: hidden;
-            color: white;
-            flex-direction: column;
-            position: relative;
+            display: flex; justify-content: center; align-items: center;
+            background: radial-gradient(ellipse at bottom, #1B2735 0%, #090A0F 100%) !important;
+            font-family: "Microsoft JhengHei", sans-serif;
+            color: white; flex-direction: column; position: relative;
         }
 
-        /* --- 背景星星 --- */
+        /* 星星背景 */
         .stars {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            background-image:
-                radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)),
-                radial-gradient(1px 1px at 40px 70px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0)),
-                radial-gradient(2px 2px at 160px 120px, #fff, rgba(0,0,0,0));
-            background-repeat: repeat;
-            background-size: 200px 200px;
-            animation: twinkle 4s infinite ease-in-out alternate;
-            opacity: 0.4;
-            z-index: -2;
-        }
-        @keyframes twinkle { 100% { opacity: 0.8; } }
-
-        /* --- 背景自動煙火 (新功能) --- */
-        .firework {
-            position: absolute;
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1; /* 在 101 前面，在文字後面 */
-            box-shadow: 0 0 0 0 rgba(255,255,255,0);
-            animation: explosion 1.8s ease-out forwards;
-        }
-        /* 使用 box-shadow 模擬煙火爆炸擴散 */
-        @keyframes explosion {
-            0% {
-                transform: scale(0.5);
-                box-shadow: 0 0 0 0 var(--color);
-                opacity: 1;
-            }
-            50% {
-                 opacity: 1;
-            }
-            100% {
-                transform: scale(1.2); /* 稍微擴大 */
-                /* 定義 8 個方向的擴散粒子 */
-                box-shadow:
-                    -80px -80px 0 -1px var(--color),
-                    80px -80px 0 -1px var(--color),
-                    -80px 80px 0 -1px var(--color),
-                    80px 80px 0 -1px var(--color),
-                    0px -100px 0 -1px var(--color),
-                    0px 100px 0 -1px var(--color),
-                    -100px 0px 0 -1px var(--color),
-                    100px 0px 0 -1px var(--color);
-                opacity: 0; /* 最後消失 */
-            }
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: -2; opacity: 0.5;
+            background-image: radial-gradient(1px 1px at 20px 30px, #fff, rgba(0,0,0,0)), 
+                              radial-gradient(2px 2px at 90px 40px, #fff, rgba(0,0,0,0));
+            background-repeat: repeat; background-size: 200px 200px;
         }
 
-        /* --- 主要文字內容 --- */
-        .container {
-            text-align: center;
-            z-index: 10;
-            margin-bottom: 150px;
-            position: relative;
-            cursor: pointer;
-        }
-
+        /* 內容區 (文字往上提一點，避開中間的 101) */
+        .container { text-align: center; z-index: 10; margin-bottom: 200px; cursor: pointer; position: relative; }
         h1 {
-            font-size: clamp(2.5rem, 8vw, 4.5rem);
-            margin-bottom: 1rem;
-            letter-spacing: 5px;
-            font-weight: bold;
-            color: #FCEABB;
-            text-shadow: 0 0 10px #FCEABB, 0 0 30px #f8b500, 0 0 70px #ff4500;
-            transition: transform 0.1s;
+            font-size: clamp(2.2rem, 8vw, 4rem); margin-bottom: 1rem; letter-spacing: 5px;
+            color: #FCEABB; text-shadow: 0 0 10px #FCEABB, 0 0 30px #f8b500;
+            animation: fadeIn 2s ease-in;
         }
-        h1:active { transform: scale(0.98); }
+        p { font-size: 1.1rem; color: #E0E0E0; opacity: 0.8; letter-spacing: 2px; }
 
-        p {
-            font-size: clamp(1rem, 4vw, 1.5rem);
-            color: #E0E0E0;
-            letter-spacing: 2px;
-            opacity: 0.9;
-        }
-
-        /* --- 台北 101 剪影 --- */
+        /* --- 修改重點：台北 101 改為畫面正中央 --- */
         .taipei-101 {
             position: fixed;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            z-index: -1;
+            top: 50%;  /* 設定在垂直方向的 50% 位置 */
+            left: 50%; /* 設定在水平方向的 50% 位置 */
+            /* 利用 translate 將自身高度和寬度的一半往回拉，達成完美置中 */
+            transform: translate(-50%, -40%); 
+            display: flex; flex-direction: column; align-items: center;
+            z-index: -1; /* 放在文字後方 */
             opacity: 0.6;
-            pointer-events: none;
+            pointer-events: none; /* 確保不會擋到點擊事件 */
         }
-        .t-section {
-            background: #0c141f;
-            border: 2px solid #1e2f45;
-            border-bottom: none;
-            box-shadow: inset 0 0 20px #000;
-        }
-        .t-spire { width: 4px; height: 30px; background: #1e2f45; }
-        .t-top { width: 20px; height: 25px; }
-        .t-block {
-            width: 60px; height: 40px; margin-top: -5px;
-            clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
-        }
-        .tb1 { width: 60px; } .tb2 { width: 70px; } .tb3 { width: 80px; }
-        .tb4 { width: 90px; } .tb5 { width: 100px; }
-        .t-base { width: 120px; height: 60px; background: #0c141f; }
+        .t-section { background: #1a2635; border: 1px solid #2c3e50; border-bottom: none; }
+        .t-block { width: 50px; height: 35px; margin-top: -3px; clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%); }
+        .tb1 { width: 50px; } .tb2 { width: 60px; } .tb3 { width: 70px; } .tb4 { width: 80px; } .tb5 { width: 90px; }
+        .t-base { width: 100px; height: 50px; background: #1a2635; }
 
-        /* --- 互動元素：點擊標題的煙火粒子 --- */
-        .particle {
-            position: absolute;
-            width: 6px; height: 6px;
-            border-radius: 50%;
-            pointer-events: none;
+        /* 互動禮物 */
+        .gift-box { position: fixed; bottom: 30px; right: 30px; font-size: 2.5rem; cursor: pointer; z-index: 20; filter: drop-shadow(0 0 10px gold); animation: float 3s infinite; }
+        @keyframes float { 50% { transform: translateY(-15px); } }
+
+        /* 煙火 */
+        .firework { position: absolute; width: 4px; height: 4px; border-radius: 50%; pointer-events: none; z-index: 1; animation: explosion 1.5s ease-out forwards; }
+        @keyframes explosion {
+            0% { transform: scale(0.5); box-shadow: 0 0 0 0 var(--color); opacity: 1; }
+            100% { transform: scale(1.2); box-shadow: -70px -70px 0 -1px var(--color), 70px -70px 0 -1px var(--color), -70px 70px 0 -1px var(--color), 70px 70px 0 -1px var(--color), 0px -90px 0 -1px var(--color), 0px 90px 0 -1px var(--color); opacity: 0; }
         }
 
-        /* --- 互動元素：隱藏禮物盒 --- */
-        .gift-box {
-            position: fixed;
-            bottom: 20px; right: 20px;
-            font-size: 2.5rem;
-            cursor: pointer;
-            z-index: 20;
-            filter: drop-shadow(0 0 10px gold);
-            animation: floatGift 3s ease-in-out infinite;
-            transition: transform 0.3s;
-        }
-        .gift-box:hover { transform: scale(1.2) rotate(10deg); }
-        @keyframes floatGift {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        /* --- 隱藏訊息彈窗 --- */
-        .modal {
-            display: none; position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 100;
-            justify-content: center; align-items: center;
-            flex-direction: column; animation: fadeIn 0.5s;
-        }
-        .modal-content {
-            background: linear-gradient(45deg, #1B2735, #2c3e50);
-            padding: 40px; border-radius: 15px; text-align: center;
-            border: 2px solid #f8b500;
-            box-shadow: 0 0 30px rgba(248, 181, 0, 0.5);
-            max-width: 80%;
-        }
-        .modal h2 { color: #FCEABB; margin-top: 0; }
-        .modal p { font-size: 1.2rem; margin: 20px 0; }
-        .close-btn {
-            margin-top: 20px; padding: 10px 25px; background: #f8b500;
-            color: #000; border: none; border-radius: 25px;
-            font-weight: bold; cursor: pointer; font-size: 1rem; transition: 0.3s;
-        }
-        .close-btn:hover { background: #ffd700; box-shadow: 0 0 15px #ffd700; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        .hint { position: absolute; bottom: -30px; width: 100%; font-size: 0.9rem; opacity: 0.6; animation: pulse 2s infinite; }
-        @keyframes pulse { 50% { opacity: 0.3; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
     <div class="stars"></div>
-
-    <div class="container" id="title-container">
-        <h1 id="main-title">吳念琴 生日快樂</h1>
-        <p>願妳的新一歲 如煙火般璀璨耀眼</p>
-        <div class="hint">這不是GPT，是Gemini</div>
-    </div>
-
+    
     <div class="taipei-101">
-        <div class="t-spire"></div>
-        <div class="t-section t-top"></div>
+        <div style="width:2px; height:25px; background:#2c3e50;"></div>
         <div class="t-section t-block tb1"></div>
         <div class="t-section t-block tb2"></div>
         <div class="t-section t-block tb3"></div>
@@ -214,100 +85,28 @@
         <div class="t-base"></div>
     </div>
 
-    <div class="gift-box" id="secret-gift">🎁</div>
-
-    <div class="modal" id="secret-modal">
-        <div class="modal-content">
-            <h2>✨ 隱藏的祝福 ✨</h2>
-            <p>恭喜妳找到了！<br>希望未來的日子裡<br>妳能像這座城市的地標一樣<br>堅定、閃耀，被愛環繞。</p>
-            <button class="close-btn" id="close-modal">收下祝福</button>
-        </div>
+    <div class="container">
+        <h1>吳念琴 生日快樂</h1>
+        <p>願妳的新一歲 璀璨如煙火</p>
     </div>
+    
+
+    <div class="gift-box" onclick="alert('✨ 隱藏驚喜 ✨\n\n這不是報告，是給妳的生日驚喜！\n希望妳今天跟煙火一樣閃耀！')">🎁</div>
 
     <script>
-        // 定義煙火顏色
-        const colors = ['#ff4500', '#f8b500', '#FCEABB', '#00ffea', '#ff6b6b', '#d400ff'];
-
-        // --- 新功能：自動背景煙火 ---
-        function launchAutoFirework() {
-            const firework = document.createElement('div');
-            firework.classList.add('firework');
-            
-            // 隨機位置 (設定在畫面上半部天空爆炸)
-            const x = Math.random() * window.innerWidth;
-            const y = Math.random() * (window.innerHeight * 0.6);
-            
-            // 隨機顏色
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            firework.style.setProperty('--color', color);
-            
-            firework.style.left = `${x}px`;
-            firework.style.top = `${y}px`;
-
-            document.body.appendChild(firework);
-
-            // 動畫結束後移除元素
-            firework.addEventListener('animationend', () => {
-                firework.remove();
-            });
+        // 煙火腳本保持不變
+        const colors = ['#ff4500', '#f8b500', '#00ffea', '#ff6b6b', '#ffffff'];
+        function spawnFirework() {
+            const fw = document.createElement('div');
+            fw.className = 'firework';
+            // 讓煙火在畫面較上方爆炸，比較不會擋到中間的 101
+            fw.style.left = Math.random() * window.innerWidth + 'px';
+            fw.style.top = Math.random() * (window.innerHeight * 0.4) + 'px';
+            fw.style.setProperty('--color', colors[Math.floor(Math.random()*colors.length)]);
+            document.body.appendChild(fw);
+            setTimeout(() => fw.remove(), 1500);
         }
-
-        // 設定定時器：每隔 1.5 到 3 秒隨機施放一個煙火
-        function scheduleNextFirework() {
-             const nextTime = Math.random() * 1500 + 1500; // 1500ms ~ 3000ms
-             setTimeout(() => {
-                 launchAutoFirework();
-                 scheduleNextFirework(); // 遞迴呼叫設定下一次
-             }, nextTime);
-        }
-
-        // 啟動背景煙火循環
-        scheduleNextFirework();
-        // 一開始先放一個開場
-        setTimeout(launchAutoFirework, 500);
-
-
-        // --- 舊功能：點擊標題炸出粒子 ---
-        const title = document.getElementById('main-title');
-        const container = document.getElementById('title-container');
-
-        title.addEventListener('click', function(e) {
-            const rect = container.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            for (let i = 0; i < 30; i++) {
-                createParticle(x, y);
-            }
-        });
-
-        function createParticle(x, y) {
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            document.getElementById('title-container').appendChild(particle);
-            const color = colors[Math.floor(Math.random() * colors.length)];
-            const size = Math.random() * 8 + 4;
-            particle.style.backgroundColor = color;
-            particle.style.width = `${size}px`;
-            particle.style.height = `${size}px`;
-            particle.style.left = `${x}px`;
-            particle.style.top = `${y}px`;
-            const destinationX = x + (Math.random() - 0.5) * 300;
-            const destinationY = y + (Math.random() - 0.5) * 300;
-            const rotate = Math.random() * 500;
-            const animation = particle.animate([
-                { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
-                { transform: `translate(${destinationX - x}px, ${destinationY - y}px) rotate(${rotate}deg)`, opacity: 0 }
-            ], { duration: 1000 + Math.random() * 500, easing: 'cubic-bezier(0, .9, .57, 1)', fill: 'forwards' });
-            animation.onfinish = () => particle.remove();
-        }
-
-        // --- 舊功能：隱藏禮物盒彈窗 ---
-        const giftBox = document.getElementById('secret-gift');
-        const modal = document.getElementById('secret-modal');
-        const closeBtn = document.getElementById('close-modal');
-        giftBox.addEventListener('click', () => modal.style.display = 'flex');
-        closeBtn.addEventListener('click', () => modal.style.display = 'none');
-        modal.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = 'none'; });
+        setInterval(spawnFirework, 1500);
     </script>
 </body>
 </html>
